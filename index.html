@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e0e10">
+<meta name="description" content="Madvisor finds open gigs, grants and competitions for UK creatives. Your profile stays on your phone.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Madvisor</title>
+<style>
+  :root {
+    --bg: #0e0e10; --panel: #17171a; --cell: #1c1c20; --line: #2a2a2f; --text: #f2f2f2; --muted: #9a9aa3;
+    --gold: #e8b931; --deadline: #ff5c5c; --event: #4fa3ff; --yes: #2fbf71;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); }
+  body { font: 15px/1.45 -apple-system, "Helvetica Neue", Arial, sans-serif; padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  header { padding: calc(14px + env(safe-area-inset-top)) 16px 8px; max-width: 980px; margin: 0 auto; }
+  .brand { font-size: 12px; font-weight: 800; letter-spacing: 4px; color: var(--gold); }
+  h1 { margin: 2px 0 0; font-size: 22px; }
+  .sub { color: var(--muted); font-size: 13px; }
+  main { max-width: 980px; margin: 0 auto; padding: 8px 16px 16px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+  button, .btn { background: #222227; color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; font: inherit; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+  button:hover, .btn:hover { border-color: var(--gold); }
+  .primary { background: var(--gold); color: #111; border-color: var(--gold); font-weight: 700; }
+  h2 { font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px; }
+  .empty { color: var(--muted); font-size: 14px; padding: 6px 0; }
+  .notice { border-color: #e8b93155; }
+
+  /* Opportunity cards */
+  .opp { padding: 12px 0; border-top: 1px solid var(--line); cursor: pointer; }
+  .opp:first-child { border-top: 0; }
+  .opp .when { font-size: 13px; font-weight: 600; }
+  .when.dl { color: var(--deadline); }
+  .when.ev { color: var(--event); }
+  .opp .t { font-size: 15px; margin-top: 2px; }
+  .meta { color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 99px; margin-left: 6px; vertical-align: 1px; }
+  .badge.Yes { background: var(--yes); color: #08140d; }
+  .badge.Maybe { background: var(--gold); color: #111; }
+  .badge.No { background: #555; color: #eee; }
+  .badge.st { background: #2a2a35; color: #cfd0ff; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .filters label { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+
+  /* Calendar */
+  .nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .nav h3 { margin: 0; font-size: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .dow { color: var(--muted); font-size: 11px; text-align: center; padding: 2px 0; }
+  .day { min-height: 54px; background: var(--cell); border-radius: 8px; padding: 5px; border: 1px solid transparent; cursor: pointer; overflow: hidden; }
+  .day.out { opacity: .35; }
+  .day.today { border-color: var(--gold); }
+  .day.sel { background: #2a2a31; }
+  .num { font-size: 12px; color: var(--muted); }
+  .dots { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot.dl { background: var(--deadline); }
+  .dot.ev { background: var(--event); }
+  .dot.dim { opacity: .4; }
+  .lbl { display: none; }
+  @media (min-width: 760px) {
+    .day { min-height: 86px; }
+    .dots { display: block; }
+    .dot { display: none; }
+    .lbl { display: block; font-size: 11px; color: #fff; padding: 2px 5px; margin-top: 3px; border-radius: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lbl.dl { background: var(--deadline); }
+    .lbl.ev { background: var(--event); }
+    .lbl.dim { opacity: .45; }
+  }
+  .legend { display: flex; gap: 14px; margin-top: 10px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; }
+
+  /* Captions */
+  .cap { padding: 10px 0; border-top: 1px solid var(--line); }
+  .cap:first-of-type { border-top: 0; }
+  .cap b { color: var(--muted); font-size: 12px; display: block; margin-bottom: 3px; }
+  .cap button { font-size: 12px; padding: 4px 10px; margin-top: 6px; }
+
+  /* Forms & dialogs */
+  form label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 5px; }
+  input, select, textarea { width: 100%; background: var(--cell); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 10px; font: inherit; font-size: 16px; }
+  input[type=checkbox] { width: auto; padding: 0; }
+  textarea { min-height: 70px; resize: vertical; }
+  .opp, .cap, dd { overflow-wrap: anywhere; }
+  main, .panel { min-width: 0; }
+  .checks { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  .checks label { display: flex; align-items: center; gap: 6px; margin: 0; color: var(--text); font-size: 14px; }
+  .checks input { width: auto; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
+  dialog { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 14px; width: calc(100% - 24px); max-width: 560px; max-height: 88vh; padding: 18px; }
+  dialog::backdrop { background: #000b; }
+  dialog h3 { margin: 0 0 10px; font-size: 18px; }
+  dl { display: grid; grid-template-columns: 100px 1fr; gap: 6px 10px; margin: 0 0 12px; font-size: 14px; }
+  dt { color: var(--muted); }
+  dd { margin: 0; overflow-wrap: anywhere; }
+  a { color: var(--gold); }
+
+  /* Bottom tabs */
+  nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; display: flex; background: #121215ee; backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); z-index: 5; }
+  nav.tabs button { flex: 1; background: none; border: 0; border-radius: 0; padding: 12px 4px; color: var(--muted); font-size: 13px; }
+  nav.tabs button.on { color: var(--gold); font-weight: 700; }
+  .view { display: none; }
+  .view.on { display: block; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">MADVISOR</div>
+  <h1 id="who">Opportunities</h1>
+  <div class="sub" id="whoSub">Gigs, grants and competitions for UK creatives</div>
+</header>
+
+<main>
+  <div class="panel notice" id="setupNote" hidden>
+    <h2>Set up your profile</h2>
+    <div class="sub">Tell Madvisor what you do and where you are, and it shows the opportunities that fit. Your profile is saved only on this device. Nobody else, including Madvisor, ever sees it.</div>
+    <div class="actions"><button class="primary" data-go="profile">Set up profile</button></div>
+  </div>
+
+  <section class="view on" id="v-list">
+    <div class="panel">
+      <h2>Open now</h2>
+      <div class="filters">
+        <label><input type="checkbox" id="hideNo" checked> Hide "No" matches</label>
+        <label><input type="checkbox" id="hideDone"> Hide applied / passed</label>
+      </div>
+      <div id="list"></div>
+    </div>
+    <div class="sub" id="feedInfo"></div>
+  </section>
+
+  <section class="view" id="v-cal">
+    <div class="panel">
+      <div class="nav">
+        <button id="prev" aria-label="Previous month">‹</button>
+        <h3 id="month"></h3>
+        <button id="next" aria-label="Next month">›</button>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="legend"><span><i style="background:var(--deadline)"></i>Deadline</span><span><i style="background:var(--event)"></i>Event</span><span>Faded = not a match / done</span></div>
+    </div>
+    <div class="panel"><h2 id="dayTitle">Pick a day</h2><div id="dayList"></div></div>
+  </section>
+
+  <section class="view" id="v-caps">
+    <div class="panel"><h2>Promo captions</h2><div id="caps"></div></div>
+  </section>
+
+  <section class="view" id="v-profile">
+    <div class="panel">
+      <h2>Your profile</h2>
+      <div class="sub">Saved only on this device. Madvisor has no accounts and no database, and nothing here is ever sent to Madvisor. Your town is looked up once on postcodes.io to work out distances.</div>
+      <form id="pForm">
+        <div class="row2">
+          <div><label for="p_name">Artist / stage name</label><input id="p_name" name="name" autocomplete="off"></div>
+          <div><label for="p_discipline">What you do</label><select id="p_discipline" name="discipline" required></select></div>
+        </div>
+        <label for="p_genres">Genres / style</label><input id="p_genres" name="genres" placeholder="e.g. grime, UK garage, house">
+        <div class="row2">
+          <div><label for="p_based">Town / city you're based in</label><input id="p_based" name="based_in" placeholder="e.g. Nottingham"></div>
+          <div><label for="p_travel">Also willing to travel to</label><input id="p_travel" name="travel_to" placeholder="e.g. London, Leeds"></div>
+        </div>
+        <div class="row2">
+          <div><label for="p_miles">Max travel distance (miles)</label><input id="p_miles" name="max_travel_miles" type="number" min="0" step="5" placeholder="Blank = no limit"></div>
+          <div><label for="p_stage">Career stage</label>
+            <select id="p_stage" name="stage">
+              <option value="">Choose…</option>
+              <option value="just starting">Just starting (no gigs / releases yet)</option>
+              <option value="emerging">Emerging (some gigs or releases)</option>
+              <option value="developing">Developing (regular bookings, building a following)</option>
+              <option value="established">Established (touring / signed / funded before)</option>
+            </select></div>
+        </div>
+        <div class="row2">
+          <div><label for="p_dob">Date of birth (optional, for age limits)</label><input id="p_dob" name="date_of_birth" type="date"></div>
+          <div><label for="p_contact">How bookers contact you (for captions)</label><input id="p_contact" name="contact" placeholder="e.g. DM on Instagram"></div>
+        </div>
+        <label for="p_exp">Experience (optional, only you see this: gigs, releases, income from music)</label>
+        <textarea id="p_exp" name="experience"></textarea>
+        <label>Show me</label>
+        <div class="checks" id="p_looking">
+          <label><input type="checkbox" value="Gig" checked>Gigs</label>
+          <label><input type="checkbox" value="Grant / funding" checked>Grants / funding</label>
+          <label><input type="checkbox" value="Competition" checked>Competitions</label>
+          <label><input type="checkbox" value="Other" checked>Other (showcases, residencies, courses)</label>
+        </div>
+        <div class="actions">
+          <button type="submit" class="primary">Save on this device</button>
+          <span class="sub" id="pMsg"></span>
+        </div>
+      </form>
+    </div>
+    <div class="panel">
+      <h2>Your data</h2>
+      <div class="sub">Everything Madvisor knows about you (profile and statuses) is stored in this browser only. Clearing it here deletes it completely.</div>
+      <div class="actions"><button id="wipe">Delete everything from this device</button></div>
+    </div>
+  </section>
+</main>
+
+<nav class="tabs">
+  <button data-go="list" class="on">Open now</button>
+  <button data-go="cal">Calendar</button>
+  <button data-go="caps">Captions</button>
+  <button data-go="profile">Profile</button>
+</nav>
+
+<dialog id="detail">
+  <h3 id="dName"></h3>
+  <dl id="dList"></dl>
+  <label class="sub" for="dStatus">My status</label>
+  <select id="dStatus">
+    <option value="">Not started</option><option>Applied</option><option>Booked</option><option>Won</option><option>Passed</option>
+  </select>
+  <div class="actions"><a class="btn primary" id="dLink" target="_blank" rel="noopener">Open link ↗</a><button id="dClose">Close</button></div>
+</dialog>
+
+<script>
+"use strict";
+// ---------- storage (this device only) ----------
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("madvisor." + k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("madvisor." + k, JSON.stringify(v)); } catch {} },
+  wipe() { try { Object.keys(localStorage).filter(k => k.startsWith("madvisor.")).forEach(k => localStorage.removeItem(k)); } catch {} },
+};
+
+const DISCIPLINES = ["Rapper / MC", "Singer", "DJ", "Producer", "Band", "Songwriter", "Instrumentalist",
+  "Visual artist", "Photographer", "Filmmaker", "Dancer", "Poet / spoken word", "Writer", "Other creative"];
+const MUSIC = new Set(["Rapper / MC", "Singer", "DJ", "Producer", "Band", "Songwriter", "Instrumentalist"]);
+const STAGES = ["just starting", "emerging", "developing", "established"];
+const STATUS_DONE = ["Passed"];
+
+let P = store.get("profile", null);
+let statuses = store.get("status", {});
+let FEED = { opportunities: [], captions: {} };
+let home = null;
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+const fmt = s => parse(s).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const key = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const today = new Date(); today.setHours(0, 0, 0, 0);
+const lower = s => String(s || "").toLowerCase();
+const list = s => String(s || "").split(",").map(x => x.trim().toLowerCase()).filter(Boolean);
+
+// ---------- distance (home town looked up on postcodes.io, straight from this device) ----------
+const POSTCODE = /\b([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})\b/i;
+const PLACE_TYPES = ["City", "Town", "Other Settlement", "Suburban Area", "Village", "Hamlet"];
+function placeRank(p, q) {
+  const area = lower(`${p.county_unitary || ""} ${p.district_borough || ""}`);
+  const t = PLACE_TYPES.indexOf(p.local_type);
+  return [lower(p.name_1) !== q ? 1 : 0, area.includes(q) ? 0 : 1, t < 0 ? 9 : t];
+}
+async function locate(text) {
+  if (!text) return null;
+  try {
+    const m = POSTCODE.exec(text);
+    if (m) {
+      const r = await (await fetch("https://api.postcodes.io/postcodes/" + encodeURIComponent(m[1] + m[2]))).json();
+      if (r.result) return [r.result.latitude, r.result.longitude];
+    }
+    const q = text.split(",").pop().trim();
+    const r = await (await fetch("https://api.postcodes.io/places?limit=20&q=" + encodeURIComponent(q))).json();
+    if (!r.result || !r.result.length) return null;
+    const best = r.result.slice().sort((a, b) => {
+      const x = placeRank(a, lower(q)), y = placeRank(b, lower(q));
+      return x[0] - y[0] || x[1] - y[1] || x[2] - y[2];
+    })[0];
+    return [best.latitude, best.longitude];
+  } catch { return null; }
+}
+function miles(a, b) {
+  const R = d => d * Math.PI / 180, [la1, lo1, la2, lo2] = [R(a[0]), R(a[1]), R(b[0]), R(b[1])];
+  const h = Math.sin((la2 - la1) / 2) ** 2 + Math.cos(la1) * Math.cos(la2) * Math.sin((lo2 - lo1) / 2) ** 2;
+  return 3958.8 * 2 * Math.asin(Math.sqrt(h));
+}
+async function ensureHome() {
+  const town = (P && P.based_in || "").trim();
+  if (!town) { home = null; return; }
+  const cached = store.get("home", null);
+  if (cached && cached.town === lower(town)) { home = cached.ll; return; }
+  home = await locate(town);
+  if (home) store.set("home", { town: lower(town), ll: home });
+}
+
+// ---------- relevance + eligibility (same rules as the Mac version, run on this device) ----------
+function relevant(o) {
+  if (!P) return true;
+  const want = P.looking_for || [];
+  if (want.length && !want.includes(o.type)) return false;
+  const d = o.disciplines || [];
+  if (!d.length || d.includes("Any creative")) return true;
+  if (d.includes("Any musician") && MUSIC.has(P.discipline)) return true;
+  return d.includes(P.discipline);
+}
+function ageOf(dob) {
+  if (!dob) return null;
+  const b = parse(dob); let a = today.getFullYear() - b.getFullYear();
+  if (today.getMonth() < b.getMonth() || (today.getMonth() === b.getMonth() && today.getDate() < b.getDate())) a--;
+  return a;
+}
+function match(o) {
+  if (!P) return { result: "", why: "Set up your profile to see if this fits you.", dist: null };
+  const fails = [], maybes = [], passes = [];
+  let dist = null;
+  const age = ageOf(P.date_of_birth), lo = o.min_age, hi = o.max_age;
+  if (lo != null || hi != null) {
+    const lim = lo != null && hi != null ? `${lo}–${hi}` : lo != null ? `${lo}+` : `up to ${hi}`;
+    if (age == null) maybes.push(`age limit ${lim}: add your date of birth to check`);
+    else if (lo != null && age < lo) fails.push(`minimum age is ${lo}`);
+    else if (hi != null && age > hi) fails.push(`maximum age is ${hi}`);
+    else passes.push("age eligible");
+  }
+  const allowed = (o.career_stages || []).map(lower).filter(s => STAGES.includes(s));
+  if (allowed.length) {
+    if (!P.stage) maybes.push(`for ${allowed.join(" / ")}: set your career stage to check`);
+    else if (allowed.includes(P.stage)) passes.push(`${P.stage} stage accepted`);
+    else fails.push(`for ${allowed.join(" / ")} (you're ${P.stage})`);
+  }
+  const areas = (o.area_restriction || []).map(lower);
+  if (areas.length) {
+    const homeText = lower(P.based_in);
+    const ok = areas.some(a => ["uk", "united kingdom", "uk-wide", "great britain"].includes(a) || homeText.includes(a) || (homeText && a.includes(homeText)) || a === "england");
+    if (ok) passes.push("you're in the eligible area"); else fails.push(`only open to people in ${o.area_restriction.join(", ")}`);
+  }
+  if (o.lat != null && o.lon != null) {
+    const travel = list(P.travel_to);
+    const listed = travel.some(t => lower(o.location || o.where).includes(t));
+    if (home) {
+      dist = Math.round(miles(home, [o.lat, o.lon]));
+      const lim = P.max_travel_miles === "" || P.max_travel_miles == null ? null : Number(P.max_travel_miles);
+      if (lim != null && dist > lim && !listed) fails.push(`${dist} miles away, over your ${lim}-mile limit`);
+      else if (listed) passes.push("in a place you'll travel to");
+      else if (lim != null) passes.push(`${dist} miles away, within your limit`);
+    } else if (!P.based_in) maybes.push("add your town to work out distance");
+  }
+  const g = (o.genres || []).map(lower);
+  if (g.length && !g.some(x => lower(P.genres).includes(x))) maybes.push(`genre focus is ${o.genres.join(", ")}`);
+  if (o.requirements) {
+    if (/releas|track record|professional|income|previous/i.test(o.requirements) && !P.experience) maybes.push(`needs ${o.requirements}: add your experience to check`);
+    else maybes.push(`check you meet: ${o.requirements}`);
+  }
+  if (fails.length) return { result: "No", why: "Not eligible: " + fails.join("; ") + ".", dist };
+  if (maybes.length) return { result: "Maybe", why: (passes.length ? `Likely: ${passes[0]}. ` : "") + "Unsure: " + maybes.join("; ") + ".", dist };
+  return { result: "Yes", why: "Eligible: " + (passes.join(", ") || "no stated restrictions you miss") + ".", dist };
+}
+
+// ---------- data ----------
+function open(o) { return o.rolling || !o.deadline || parse(o.deadline) >= today || (o.event_date && parse(o.event_date) >= today); }
+function items() {
+  return FEED.opportunities.filter(o => relevant(o) && open(o)).map(o => ({ ...o, m: match(o), status: statuses[o.id] || "" }));
+}
+function sortDate(o) { return o.deadline || o.event_date || "9999"; }
+function done(o) { return STATUS_DONE.includes(o.status); }
+
+// ---------- views ----------
+function header() {
+  $("who").textContent = P && P.name ? `${P.name}` : "Opportunities";
+  $("whoSub").textContent = P ? [P.discipline, P.genres, P.based_in].filter(Boolean).join(" · ") : "Gigs, grants and competitions for UK creatives";
+  $("setupNote").hidden = !!(P && P.discipline);
+}
+
+function card(o) {
+  const row = el("div", "opp");
+  const when = o.deadline ? el("div", "when dl", `Deadline ${fmt(o.deadline)} · ${daysLeft(o.deadline)}`)
+    : o.event_date ? el("div", "when ev", `Event ${fmt(o.event_date)}`) : el("div", "when", "Rolling / open");
+  const t = el("div", "t", o.name);
+  if (o.m.result) t.append(el("span", `badge ${o.m.result}`, o.m.result));
+  if (o.status) t.append(el("span", "badge st", o.status));
+  const meta = el("div", "meta", [o.type, o.where, o.m.dist != null ? `${o.m.dist} mi` : "", o.fee].filter(Boolean).join(" · "));
+  row.append(when, t, meta);
+  row.onclick = () => show(o);
+  return row;
+}
+function daysLeft(s) {
+  const d = Math.round((parse(s) - today) / 864e5);
+  return d === 0 ? "today" : d === 1 ? "tomorrow" : `${d} days`;
+}
+
+function renderList() {
+  const box = $("list"); box.replaceChildren();
+  let xs = items();
+  if ($("hideNo").checked) xs = xs.filter(o => o.m.result !== "No");
+  if ($("hideDone").checked) xs = xs.filter(o => !["Applied", "Passed", "Booked", "Won"].includes(o.status));
+  xs.sort((a, b) => sortDate(a).localeCompare(sortDate(b)));
+  if (!xs.length) box.append(el("div", "empty", P ? "Nothing open that fits right now. New ones are added every day." : "Loading…"));
+  xs.forEach(o => box.append(card(o)));
+}
+
+let view = new Date(today.getFullYear(), today.getMonth(), 1), selected = key(today);
+function renderCal() {
+  $("month").textContent = view.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+  const grid = $("grid"); grid.replaceChildren();
+  ["M", "T", "W", "T", "F", "S", "S"].forEach(d => grid.append(el("div", "dow", d)));
+  const byDay = {};
+  for (const o of items()) {
+    if ($("hideNo").checked && o.m.result === "No") continue;
+    if (o.deadline) (byDay[o.deadline] ??= []).push([o, "dl"]);
+    if (o.event_date) (byDay[o.event_date] ??= []).push([o, "ev"]);
+  }
+  const start = new Date(view); start.setDate(1 - ((view.getDay() + 6) % 7));
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    const k = key(d);
+    const cell = el("div", "day");
+    if (d.getMonth() !== view.getMonth()) cell.classList.add("out");
+    if (+d === +today) cell.classList.add("today");
+    if (k === selected) cell.classList.add("sel");
+    cell.append(el("div", "num", d.getDate()));
+    const dots = el("div", "dots");
+    for (const [o, kind] of byDay[k] || []) {
+      const dim = o.m.result === "No" || done(o) ? " dim" : "";
+      dots.append(el("span", `dot ${kind}${dim}`), el("span", `lbl ${kind}${dim}`, o.name));
+    }
+    cell.append(dots);
+    cell.onclick = () => { selected = k; renderCal(); };
+    grid.append(cell);
+  }
+  $("dayTitle").textContent = fmt(selected);
+  const box = $("dayList"); box.replaceChildren();
+  const xs = (byDay[selected] || []).map(x => x[0]);
+  if (!xs.length) box.append(el("div", "empty", "Nothing on this day."));
+  xs.forEach(o => box.append(card(o)));
+}
+
+function renderCaps() {
+  const box = $("caps"); box.replaceChildren();
+  if (!P || !P.discipline) { box.append(el("div", "empty", "Set up your profile to get captions written for you.")); return; }
+  const group = MUSIC.has(P.discipline) ? "music" : "creative";
+  const caps = (FEED.captions && (FEED.captions[P.discipline] || FEED.captions[group])) || [];
+  if (!caps.length) { box.append(el("div", "empty", "No captions yet. New ones arrive with the daily update.")); return; }
+  // Filled in here on the device: the shared list only has {placeholders}.
+  const vals = { name: P.name || "", discipline: lower(P.discipline), genres: P.genres || lower(P.discipline),
+                 based_in: P.based_in || "the UK", contact: P.contact || "DM me" };
+  for (const c of caps) {
+    const text = c.text.replace(/\{(\w+)\}/g, (m, k) => vals[k] ?? "").replace(/\s{2,}/g, " ").trim();
+    const row = el("div", "cap"); row.append(el("b", null, c.platform), el("div", null, text));
+    const b = el("button", null, "Copy");
+    b.onclick = () => navigator.clipboard.writeText(text).then(() => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1200); }).catch(() => {});
+    row.append(b); box.append(row);
+  }
+}
+
+function show(o) {
+  $("dName").textContent = o.name;
+  if (o.m.result) $("dName").append(el("span", `badge ${o.m.result}`, o.m.result));
+  const dl = $("dList"); dl.replaceChildren();
+  const rows = [["Fit", o.m.why], ["Distance", o.m.dist != null ? `${o.m.dist} miles (straight line)` : ""], ["Type", o.type],
+    ["Deadline", o.deadline ? fmt(o.deadline) : o.rolling ? "Rolling" : ""], ["Event date", o.event_date && fmt(o.event_date)],
+    ["Where", o.where], ["Fee / amount", o.fee], ["Notes", o.notes], ["Checked", o.verified && `Link and deadline checked ${fmt(o.verified)}`]];
+  for (const [k, v] of rows) if (v) dl.append(el("dt", null, k), el("dd", null, v));
+  const a = $("dLink");
+  if (/^https?:\/\//.test(o.link || "")) { a.href = o.link; a.hidden = false; } else a.hidden = true;
+  $("dStatus").value = o.status || "";
+  $("dStatus").onchange = () => {
+    if ($("dStatus").value) statuses[o.id] = $("dStatus").value; else delete statuses[o.id];
+    store.set("status", statuses); renderAll();
+  };
+  $("detail").showModal();
+}
+$("dClose").onclick = () => $("detail").close();
+
+function renderAll() { header(); renderList(); renderCal(); renderCaps(); }
+
+// ---------- profile ----------
+const form = $("pForm");
+DISCIPLINES.forEach(d => $("p_discipline").append(new Option(d, d)));
+$("p_discipline").prepend(new Option("Choose…", "")); $("p_discipline").value = "";
+function fillForm() {
+  if (!P) return;
+  for (const f of form.elements) if (f.name) f.value = P[f.name] ?? "";
+  for (const cb of $("p_looking").querySelectorAll("input")) cb.checked = (P.looking_for || []).includes(cb.value);
+}
+form.onsubmit = async e => {
+  e.preventDefault();
+  const p = {};
+  for (const f of form.elements) if (f.name) p[f.name] = f.value.trim();
+  p.looking_for = [...$("p_looking").querySelectorAll("input:checked")].map(c => c.value);
+  P = p; store.set("profile", P);
+  $("pMsg").textContent = "Saved on this device.";
+  await ensureHome(); renderAll();
+  setTimeout(() => go("list"), 600);
+};
+$("wipe").onclick = () => {
+  if (!confirm("Delete your profile and statuses from this device?")) return;
+  store.wipe(); P = null; statuses = {}; home = null; form.reset(); renderAll();
+};
+
+// ---------- tabs ----------
+function go(name) {
+  document.querySelectorAll(".view").forEach(v => v.classList.toggle("on", v.id === "v-" + name));
+  document.querySelectorAll("nav.tabs button").forEach(b => b.classList.toggle("on", b.dataset.go === name));
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go(b.dataset.go));
+$("prev").onclick = () => { view.setMonth(view.getMonth() - 1); renderCal(); };
+$("next").onclick = () => { view.setMonth(view.getMonth() + 1); renderCal(); };
+$("hideNo").onchange = $("hideDone").onchange = () => { store.set("filters", { hideNo: $("hideNo").checked, hideDone: $("hideDone").checked }); renderList(); renderCal(); };
+const fl = store.get("filters", null); if (fl) { $("hideNo").checked = fl.hideNo; $("hideDone").checked = fl.hideDone; }
+
+// ---------- start ----------
+(async () => {
+  fillForm(); header();
+  try {
+    FEED = await (await fetch("feed.json", { cache: "no-cache" })).json();
+    $("feedInfo").textContent = `List updated ${new Date(FEED.updated).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}. Every link and deadline is checked before it's added.`;
+  } catch { $("feedInfo").textContent = "Couldn't load the list. Check your connection."; }
+  await ensureHome();
+  renderAll();
+  if (!P) go("list");
+})();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+</script>
+</body>
+</html>

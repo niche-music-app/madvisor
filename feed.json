@@ -1,0 +1,203 @@
+{
+ "updated": "2026-11-18T13:58:35Z",
+ "opportunities": [
+  {
+   "id": "help-musicians-fast-track-live-round-two",
+   "name": "Help Musicians – Fast Track Live (Round Two)",
+   "type": "Grant / funding",
+   "disciplines": [
+    "Any musician"
+   ],
+   "genres": [],
+   "deadline": "2026-11-23",
+   "rolling": false,
+   "event_date": null,
+   "where": "UK-wide (online application)",
+   "location": null,
+   "lat": null,
+   "lon": null,
+   "area_restriction": [
+    "UK"
+   ],
+   "min_age": 18,
+   "max_age": null,
+   "career_stages": [],
+   "requirements": "£500+ music income in the last 12 months; activity not within 8 weeks of applying",
+   "fee": "£500–£1,000 + career clinic",
+   "link": "https://www.helpmusicians.org.uk/get-support/develop-as-a-musician/fast-track-live",
+   "notes": "Funds a specific live opportunity (support slots, showcases, launch shows, tours); closes 5pm. Catch: 18+, UK-based, ≥£500 music income in last 12 months, activity can't be within 8 weeks of applying.",
+   "verified": "2026-11-18",
+   "added": "2026-11-18"
+  },
+  {
+   "id": "help-musicians-fast-track-round-three",
+   "name": "Help Musicians – Fast Track (Round Three)",
+   "type": "Grant / funding",
+   "disciplines": [
+    "Any musician"
+   ],
+   "genres": [],
+   "deadline": "2026-11-23",
+   "rolling": false,
+   "event_date": null,
+   "where": "UK-wide (online application)",
+   "location": null,
+   "lat": null,
+   "lon": null,
+   "area_restriction": [
+    "UK"
+   ],
+   "min_age": null,
+   "max_age": null,
+   "career_stages": [],
+   "requirements": "self-managing, self-releasing or self-producing; deliver within 6 months",
+   "fee": "Up to £500",
+   "link": "https://www.helpmusicians.org.uk/get-support/develop-as-a-musician/fast-track-grants",
+   "notes": "Closes 5pm. Covers recording/releasing, equipment, training. Must self-manage/release/produce; deliver within 6 months. Separate from Fast Track Live.",
+   "verified": "2026-11-18",
+   "added": "2026-11-18"
+  },
+  {
+   "id": "the-soul-xchange-hip-hop-soul-showcase-with-open-mic",
+   "name": "The Soul Xchange – hip hop & soul showcase with open mic",
+   "type": "Gig",
+   "disciplines": [
+    "Rapper / MC",
+    "Singer"
+   ],
+   "genres": [
+    "hip hop",
+    "soul"
+   ],
+   "deadline": null,
+   "rolling": false,
+   "event_date": "2026-12-03",
+   "where": "The Libra Theatre Cafe, Chalk Farm Rd, London NW1 8AJ",
+   "location": "The Libra Theatre Cafe, Chalk Farm Rd, London NW1 8AJ",
+   "lat": 51.542912,
+   "lon": -0.148148,
+   "area_restriction": [],
+   "min_age": null,
+   "max_age": null,
+   "career_stages": [],
+   "requirements": "",
+   "fee": "",
+   "link": "https://beatstorapon.com/event/the-soul-xchange-6af3f3e746dc464e327cf098",
+   "notes": "London showcase/open mic for independent classic hip hop & soul artists, from 6:30pm. Catch: no sign-up method or cost stated; listing gives both 37 and 38 Chalk Farm Rd.",
+   "verified": "2026-11-18",
+   "added": "2026-11-18"
+  },
+  {
+   "id": "sound-and-music-essentials-fund-round-five",
+   "name": "Sound and Music – Essentials Fund Round Five",
+   "type": "Grant / funding",
+   "disciplines": [
+    "Any musician"
+   ],
+   "genres": [],
+   "deadline": "2026-12-06",
+   "rolling": false,
+   "event_date": null,
+   "where": "UK-wide (online)",
+   "location": null,
+   "lat": null,
+   "lon": null,
+   "area_restriction": [
+    "UK"
+   ],
+   "min_age": 18,
+   "max_age": null,
+   "career_stages": [],
+   "requirements": "lived in the UK 2+ years; not in education; no previous Essentials grant",
+   "fee": "£250–£450",
+   "link": "https://soundandmusic.org/post/essentials-fund-round-five-registrations-now-open/",
+   "notes": "Small grant for making your own original music; register by 23:59 GMT. Catch: random draw of 50, then full application 14/12–10/01; 18+, in UK 2+ yrs, not in education, no previous Essentials grant.",
+   "verified": "2026-11-18",
+   "added": "2026-11-18"
+  },
+  {
+   "id": "verb-t-live-billy-s-freestyle-open-mic",
+   "name": "Verb T – Live @ Billy's (freestyle open mic)",
+   "type": "Gig",
+   "disciplines": [
+    "Rapper / MC"
+   ],
+   "genres": [
+    "hip hop"
+   ],
+   "deadline": null,
+   "rolling": false,
+   "event_date": "2026-12-11",
+   "where": "Billy Bootleggers, 13–15 Weekday Cross, Nottingham NG1 2GB",
+   "location": "Billy Bootleggers, 13–15 Weekday Cross, Nottingham NG1 2GB",
+   "lat": 52.951655,
+   "lon": -1.145709,
+   "area_restriction": [],
+   "min_age": null,
+   "max_age": null,
+   "career_stages": [],
+   "requirements": "",
+   "fee": "",
+   "link": "https://beatstorapon.com/event/verb-t-live-billy-s-6ada051c9f1bb794c97c6f50",
+   "notes": "Nottingham hip hop night with an open-mic freestyle session at the start (show 7:30pm) – local exposure. Catch: no sign-up process or deadline stated; turn up on the night.",
+   "verified": "2026-11-18",
+   "added": "2026-11-18"
+  },
+  {
+   "id": "the-great-escape-2027-artist-applications",
+   "name": "The Great Escape 2027 – Artist Applications",
+   "type": "Gig",
+   "disciplines": [
+    "Any creative"
+   ],
+   "genres": [],
+   "deadline": "2027-02-15",
+   "rolling": false,
+   "event_date": null,
+   "where": "Brighton",
+   "location": "Brighton",
+   "lat": 50.822371438402534,
+   "lon": -0.13768177679228039,
+   "area_restriction": [],
+   "min_age": null,
+   "max_age": null,
+   "career_stages": [],
+   "requirements": "",
+   "fee": "",
+   "link": "https://greatescapefestival.com/apply-to-play/",
+   "notes": "Major new-music showcase festival, all genres, free to apply. Catch: very competitive; no reply by 31/03/2027 means unsuccessful; artist fee not stated.",
+   "verified": "2026-11-18",
+   "added": "2026-11-18"
+  }
+ ],
+ "captions": {
+  "music": [
+   {
+    "platform": "Instagram",
+    "text": "{name}. {genres}, out of {based_in}. Bookings open now. {contact} to lock in a date."
+   },
+   {
+    "platform": "TikTok",
+    "text": "{based_in} {discipline} on the come up. {genres}. Booking now. {contact}."
+   },
+   {
+    "platform": "Booking bio",
+    "text": "{name} is a {discipline} making {genres}, based in {based_in} and available for bookings. For enquiries: {contact}."
+   }
+  ],
+  "creative": [
+   {
+    "platform": "Instagram",
+    "text": "{name}, {discipline} based in {based_in}. Open to commissions and collaborations. {contact}."
+   },
+   {
+    "platform": "TikTok",
+    "text": "{discipline} from {based_in}. {genres}. Open for work. {contact}."
+   },
+   {
+    "platform": "Booking bio",
+    "text": "{name} is a {discipline} based in {based_in}, working in {genres}. Available for projects. Enquiries: {contact}."
+   }
+  ]
+ }
+}
