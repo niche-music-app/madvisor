@@ -190,6 +190,7 @@
           <label><input type="checkbox" value="Gig" checked>Gigs</label>
           <label><input type="checkbox" value="Grant / funding" checked>Grants / funding</label>
           <label><input type="checkbox" value="Competition" checked>Competitions</label>
+          <label><input type="checkbox" value="Sync" checked>Sync (music for film, TV, ads, games)</label>
           <label><input type="checkbox" value="Other" checked>Other (showcases, residencies, courses)</label>
         </div>
         <div class="actions">
@@ -296,7 +297,8 @@ async function ensureHome() {
 function relevant(o) {
   if (!P) return true;
   const want = P.looking_for || [];
-  if (want.length && !want.includes(o.type)) return false;
+  // Types added after the profile was saved count as wanted until the person unticks them
+  if (want.length && offered().includes(o.type) && !want.includes(o.type)) return false;
   const d = o.disciplines || [];
   if (!d.length || d.includes("Any creative")) return true;
   if (d.includes("Any musician") && MUSIC.has(P.discipline)) return true;
@@ -475,16 +477,21 @@ function renderAll() { header(); renderList(); renderCal(); renderCaps(); }
 const form = $("pForm");
 DISCIPLINES.forEach(d => $("p_discipline").append(new Option(d, d)));
 $("p_discipline").prepend(new Option("Choose…", "")); $("p_discipline").value = "";
+function offered() {
+  return P.types_offered || ["Gig", "Grant / funding", "Competition", "Other"];
+}
 function fillForm() {
   if (!P) return;
   for (const f of form.elements) if (f.name) f.value = P[f.name] ?? "";
-  for (const cb of $("p_looking").querySelectorAll("input")) cb.checked = (P.looking_for || []).includes(cb.value);
+  for (const cb of $("p_looking").querySelectorAll("input"))
+    cb.checked = (P.looking_for || []).includes(cb.value) || !offered().includes(cb.value);
 }
 form.onsubmit = async e => {
   e.preventDefault();
   const p = {};
   for (const f of form.elements) if (f.name) p[f.name] = f.value.trim();
   p.looking_for = [...$("p_looking").querySelectorAll("input:checked")].map(c => c.value);
+  p.types_offered = [...$("p_looking").querySelectorAll("input")].map(c => c.value);
   P = p; store.set("profile", P);
   $("pMsg").textContent = "Saved on this device.";
   await ensureHome(); renderAll();

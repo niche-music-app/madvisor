@@ -14,7 +14,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 FEED = Path(__file__).resolve().parent.parent / "feed.json"
-TYPES = {"Gig", "Grant / funding", "Competition", "Other"}
+TYPES = {"Gig", "Grant / funding", "Competition", "Sync", "Other"}
 DISCIPLINES = {"Any creative", "Any musician", "Rapper / MC", "Singer", "DJ", "Producer", "Band", "Songwriter",
                "Instrumentalist", "Visual artist", "Photographer", "Filmmaker", "Dancer", "Poet / spoken word",
                "Writer", "Other creative"}

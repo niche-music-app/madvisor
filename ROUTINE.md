@@ -14,12 +14,13 @@ You keep `feed.json` up to date: a public list of real, currently open opportuni
 2. Find new open opportunities across the UK, aiming for **15–30 new items per run** when they exist, spread across:
    - Disciplines: musicians of every kind (rappers/MCs, singers, DJs, producers, bands, songwriters, instrumentalists), plus visual artists, photographers, filmmakers, dancers, poets/spoken word and writers.
    - Regions: every English region, plus Scotland, Wales and Northern Ireland. Include local gigs, open mics, showcases and open calls, not just national funds.
-   - Types: Gig, Grant / funding, Competition, Other (residencies, showcases, courses, commissions, open calls).
+   - Types: Gig, Grant / funding, Competition, Sync, Other (residencies, showcases, courses, commissions, open calls).
+   - **Sync** means open calls and briefs for music to be licensed in film, TV, adverts, games, trailers or online video, plus production-music library submission calls. Leads to check each run (open the page, add only calls open now): Music Gateway briefs, Songtradr, Sync Summit, music-supervisor and production-library submission calls, broadcaster and games-studio music calls, and searches such as "sync brief open call UK", "music supervisor submissions", "production music library submissions". For every sync item, put in `notes`: whether it costs money to pitch or submit, and the rights terms the page states (exclusive or non-exclusive, who owns the master, upfront fee or royalties only). If the page doesn't state them, say "rights terms not stated". In `fee`, give the stated licence fee or pitch cost, else `""`.
    Sources to check every run (open the page and add only rounds that are open now): Help Musicians (Fast Track, Fast Track Live, other funds), PRS Foundation deadlines page (prsfoundation.com/funding-support/deadlines/), PPL Momentum Music Fund, FAC Step Up Fund, Sound and Music opportunities, BBC Introducing (local shows' calls), Arts Council England, Creative Scotland, Arts Council of Wales, Arts Council of Northern Ireland, a-n.co.uk opportunities, Arts Jobs (artsjobs.org.uk), Opportunity Tuesday, Ditto Music funding round-up, British Council music funding list, plus local listings sites and promoters found by searching. Then run several varied searches of your own.
 3. Skip anything whose `link` or `name` is already in `feed.json`.
 4. Add each new item to `opportunities` with exactly these fields:
    - `id`: lowercase-hyphenated short slug, unique
-   - `name`, `type` (one of `Gig`, `Grant / funding`, `Competition`, `Other`)
+   - `name`, `type` (one of `Gig`, `Grant / funding`, `Competition`, `Sync`, `Other`)
    - `disciplines`: from `Any creative`, `Any musician`, `Rapper / MC`, `Singer`, `DJ`, `Producer`, `Band`, `Songwriter`, `Instrumentalist`, `Visual artist`, `Photographer`, `Filmmaker`, `Dancer`, `Poet / spoken word`, `Writer`, `Other creative`. Use who the page says it's for.
    - `genres`: only if the page restricts or targets genres (lowercase), else `[]`
    - `deadline` (`YYYY-MM-DD` or `null`), `rolling` (true/false), `event_date` (`YYYY-MM-DD` or `null`)
