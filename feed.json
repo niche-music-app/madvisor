@@ -1,62 +1,6 @@
 {
- "updated": "2026-11-22T17:04:27Z",
+ "updated": "2026-11-24T17:05:10Z",
  "opportunities": [
-  {
-   "id": "help-musicians-fast-track-live-round-two",
-   "name": "Help Musicians – Fast Track Live (Round Two)",
-   "type": "Grant / funding",
-   "disciplines": [
-    "Any musician"
-   ],
-   "genres": [],
-   "deadline": "2026-11-23",
-   "rolling": false,
-   "event_date": null,
-   "where": "UK-wide (online application)",
-   "location": null,
-   "lat": null,
-   "lon": null,
-   "area_restriction": [
-    "UK"
-   ],
-   "min_age": 18,
-   "max_age": null,
-   "career_stages": [],
-   "requirements": "£500+ music income in the last 12 months; activity not within 8 weeks of applying",
-   "fee": "£500–£1,000 + career clinic",
-   "link": "https://www.helpmusicians.org.uk/get-support/develop-as-a-musician/fast-track-live",
-   "notes": "Funds a specific live opportunity (support slots, showcases, launch shows, tours); closes 5pm. Catch: 18+, UK-based, ≥£500 music income in last 12 months, activity can't be within 8 weeks of applying.",
-   "verified": "2026-11-18",
-   "added": "2026-11-18"
-  },
-  {
-   "id": "help-musicians-fast-track-round-three",
-   "name": "Help Musicians – Fast Track (Round Three)",
-   "type": "Grant / funding",
-   "disciplines": [
-    "Any musician"
-   ],
-   "genres": [],
-   "deadline": "2026-11-23",
-   "rolling": false,
-   "event_date": null,
-   "where": "UK-wide (online application)",
-   "location": null,
-   "lat": null,
-   "lon": null,
-   "area_restriction": [
-    "UK"
-   ],
-   "min_age": null,
-   "max_age": null,
-   "career_stages": [],
-   "requirements": "self-managing, self-releasing or self-producing; deliver within 6 months",
-   "fee": "Up to £500",
-   "link": "https://www.helpmusicians.org.uk/get-support/develop-as-a-musician/fast-track-grants",
-   "notes": "Closes 5pm. Covers recording/releasing, equipment, training. Must self-manage/release/produce; deliver within 6 months. Separate from Fast Track Live.",
-   "verified": "2026-11-18",
-   "added": "2026-11-18"
-  },
   {
    "id": "the-soul-xchange-hip-hop-soul-showcase-with-open-mic",
    "name": "The Soul Xchange – hip hop & soul showcase with open mic",
